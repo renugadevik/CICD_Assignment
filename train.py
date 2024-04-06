@@ -23,4 +23,3 @@ model = LogisticRegression(max_iter=1000).fit(X_scaled, y)
 
 with open("/app/data/model.pkl", 'wb') as f:
     pickle.dump(model, f)
-~                                 
