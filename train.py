@@ -35,6 +35,7 @@ best_rf = grid_search.best_estimator_
 # Train the model using the best estimator
 model = best_rf.fit(X, y)
 
+print("Check val")
 # Save the model
 with open("model.pkl", 'wb') as f:
     pickle.dump(model, f)

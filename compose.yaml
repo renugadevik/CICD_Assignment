@@ -15,4 +15,4 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - /Users/renbalaj/MyOwn/RENU_CICD_Work/CICD_Assignment/data:/app/data
+      - /Users/renbalaj/MyOwn/cicd_iisc/CICD_Assignment/data:/app/data
