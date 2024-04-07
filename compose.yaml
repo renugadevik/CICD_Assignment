@@ -15,6 +15,4 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - /Users/renbalaj/Documents/AI_CICD_Ass/AI_CICD_GIT/CICD_Assignment/data:/app/data
-
-
+      - /Users/renbalaj/Documents/DS_AI_CICD/CICD_Assignment/data:/app/data
