@@ -19,9 +19,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag renugadevibalaji/cicd_new:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker build . --file Dockerfile --tag renugadevibalaji/iisc_ai_renu:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
     - name: Docker Push
-      run: docker push renugadevibalaji/cicd_new:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker push renugadevibalaji/iisc_ai_renu:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
   Pull:
     needs: Push
     runs-on: ubuntu-latest
@@ -35,10 +35,10 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Pull the docker image
-      run: docker pull renugadevibalaji/cicd_new:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker pull renugadevibalaji/iisc_ai_renu:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
     - name: Test model
       run: |
-        OUTPUT=$(docker run renugadevibalaji/cicd_new:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_})
+        OUTPUT=$(docker run renugadevibalaji/iisc_ai_renu:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_})
         echo "Score:"
         echo "$OUTPUT"
         if [[ `echo "$OUTPUT 0.42" | awk '{print ($1 < $2)}'` == 1 ]]; then echo "Insufficient Accuracy" && exit 1; fi
