@@ -35,6 +35,9 @@ COPY requirements.txt /app/
 # Install dependencies from requirements.txt
 RUN pip install -r requirements.txt
 
+# Install pandas library
+RUN pip install pandas
+
 #RUN --mount=type=cache,target=/root/.cache/pip \
 #    --mount=type=bind,source=requirements.txt,target=requirements.txt \
 #    python -m pip install -r requirements.txt

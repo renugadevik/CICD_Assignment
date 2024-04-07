@@ -1,51 +1,40 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.preprocessing import StandardScaler
-from scipy.stats import randint
 import pickle
-import numpy as np
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import LabelEncoder
 
+# Load the data
 df = pd.read_csv("data/train.csv")
-
-# Example of basic feature engineering
-df['FeatureSum'] = df.drop(columns=['Disease']).sum(axis=1)
-
 X = df.drop(columns=['Disease']).to_numpy()
 y = df['Disease'].to_numpy()
-labels = np.sort(np.unique(y))
-y = np.array([np.where(labels == x) for x in y]).flatten()
+le = LabelEncoder()
+y = le.fit_transform(y)
 
-# Standardize the features
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
-
-# Define the hyperparameters to search
-param_dist = {
-    'n_estimators': randint(50, 500),
-    'max_depth': [None, 10, 20, 30],
-    'min_samples_split': randint(2, 20),
-    'min_samples_leaf': randint(1, 10),
-    'bootstrap': [True, False]
+# Define the parameter grid
+param_grid = {
+    'n_estimators': [3000, 5000],
+    'max_depth': [30, 40, 50],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4],
+    'max_features': ['auto', 'sqrt', 'log2']
 }
 
-# Create a RandomizedSearchCV object
-random_search = RandomizedSearchCV(RandomForestClassifier(), param_distributions=param_dist, n_iter=20, cv=5, n_jobs=-1)
+# Initialize the RandomForestClassifier
+rf = RandomForestClassifier(random_state=42)
 
-# Fit the model
-random_search.fit(X, y)
+# Initialize GridSearchCV
+grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=3, scoring='accuracy', n_jobs=-1)
 
-# Get the best model
-best_model = random_search.best_estimator_
+# Perform GridSearchCV
+grid_search.fit(X, y)
 
-# Feature selection
-feature_importances = best_model.feature_importances_
-selected_features = np.argsort(feature_importances)[::-1][:10]  # Select top 10 features
+# Get the best estimator
+best_rf = grid_search.best_estimator_
 
-X_selected = X[:, selected_features]
+# Train the model using the best estimator
+model = best_rf.fit(X, y)
 
-# Refit the model with selected features
-best_model.fit(X_selected, y)
-
+# Save the model
 with open("model.pkl", 'wb') as f:
-    pickle.dump(best_model, f)
+    pickle.dump(model, f)
