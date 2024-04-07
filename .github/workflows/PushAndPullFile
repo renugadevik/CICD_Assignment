@@ -1,4 +1,4 @@
-name: PushAndPull_latest
+name: PushAndPull
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Train:
+  Train_job:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -22,8 +22,8 @@ jobs:
       run: docker build . --file Dockerfile --tag renugadevibalaji/rb_cicd:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
     - name: Docker Push
       run: docker push renugadevibalaji/rb_cicd:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
-  Test:
-    needs: Train
+  Test_job:
+    needs: Train_job
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -35,10 +35,10 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Pull the docker image
-      run: docker pull renugadevibalaji/rb_change:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker pull renugadevibalaji/rb_cicd:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
     - name: Test model
       run: |
-        OUTPUT=$(docker run renugadevibalaji/rb_change:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+        OUTPUT=$(docker run renugadevibalaji/rb_cicd:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_})
         echo "Score:"
         echo "$OUTPUT"
         if [[ `echo "$OUTPUT 0.42" | awk '{print ($1 < $2)}'` == 1 ]]; then echo "Insufficient Accuracy" && exit 1; fi
