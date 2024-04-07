@@ -19,9 +19,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag renugadevibalaji/rk_change:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker build . --file Dockerfile --tag renugadevibalaji/rk_change
     - name: Docker Push
-      run: docker push renugadevibalaji/rk_change:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker push renugadevibalaji/rk_change
   Pull:
     needs: Push
     runs-on: ubuntu-latest
@@ -35,10 +35,10 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Pull the docker image
-      run: docker pull renugadevibalaji/rk_change:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_}
+      run: docker pull renugadevibalaji/rk_change
     - name: Test model
       run: |
-        OUTPUT=$(docker run renugadevibalaji/rk_change:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_})
+        OUTPUT=$(docker run renugadevibalaji/rk_change
         echo "Score:"
         echo "$OUTPUT"
         if [[ `echo "$OUTPUT 0.42" | awk '{print ($1 < $2)}'` == 1 ]]; then echo "Insufficient Accuracy" && exit 1; fi
