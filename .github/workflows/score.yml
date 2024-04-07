@@ -1,4 +1,4 @@
-name: Check Minimum Score
+name: Workflow for less accuracy , Failed Scenario
 
 on :
   pull_request:
