@@ -2,9 +2,9 @@ name: PushAndPullFile
 
 on:
   push:
-    branches: [ "renu_cicd" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "renu_cicd" ]
+    branches: [ "main" ]
 
 jobs:
   Push:
