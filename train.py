@@ -11,9 +11,6 @@ y = np.array([np.where(labels == x) for x in y]).flatten()
 
 #rf = RandomForestClassifier(n_estimators=100, max_depth=15, min_samples_split=5, min_samples_leaf=2)  # Increase the number of estimators and tune max_depth
 #gb = GradientBoostingClassifier(n_estimators=100, max_depth=5, learning_rate=0.1)  # Increase the number of estimators and tune max_depth
-
-#rf = RandomForestClassifier(n_estimators=300, max_depth=20, min_samples_split=10, min_samples_leaf=2, random_state=42)
-#gb = GradientBoostingClassifier(n_estimators=300, max_depth=5, learning_rate=0.1, random_state=42)
 rf = RandomForestClassifier()
 gb = GradientBoostingClassifier()
 
