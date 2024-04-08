@@ -36,6 +36,6 @@ best_rf = grid_search.best_estimator_
 model = best_rf.fit(X, y)
 
 # Save the model
-with open("model.pkl", 'wb') as f:
+with open("negative.model.pkl", 'wb') as f:
     pickle.dump(model, f)
 print("End train")
