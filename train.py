@@ -21,6 +21,6 @@ model = VotingClassifier(
         ('gb', gb)
     ],
 ).fit(X, y)
-
+print("In Training  the model")
 with open("model.pkl", 'wb') as f:
     pickle.dump(model, f)
