@@ -1,4 +1,4 @@
-aname: pushandpull
+name: pushandpull
 
 on:
   push:
