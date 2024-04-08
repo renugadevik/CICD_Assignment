@@ -1,13 +1,12 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, GradientBoostingClassifier
 import pickle
-from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
-# Load the data
 df = pd.read_csv("data/train.csv")
 X = df.drop(columns=['Disease']).to_numpy()
 y = df['Disease'].to_numpy()
+
 le = LabelEncoder()
 y = le.fit_transform(y)
 
@@ -38,4 +37,3 @@ model = best_rf.fit(X, y)
 # Save the model
 with open("negative.model.pkl", 'wb') as f:
     pickle.dump(model, f)
-print("End train")
