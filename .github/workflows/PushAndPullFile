@@ -41,4 +41,4 @@ jobs:
         OUTPUT=$(docker run renugadevibalaji/doc_cicd:${GITHUB_REF_NAME//[^a-zA-Z0-9]/_})
         echo "Score:"
         echo "$OUTPUT"
-        if [[ `echo "$OUTPUT 0.35" | awk '{print ($2 < $1)}'` == 1 ]]; then echo "Insufficient Accuracy" && exit 0; else echo "Sufficient Accuracy"; fi
+        if (( $(echo "$OUTPUT < 0.35" | bc -l) )); then echo "Insufficient Accuracy" && exit 0; else echo "Sufficient Accuracy"; fi
